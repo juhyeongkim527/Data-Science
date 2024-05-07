@@ -19,13 +19,12 @@ def get_info(node):
     node_class = node.iloc[:,-1]
 
     info = 0
-    for i in range(node_class.nunique()):
+    for i in range(node_class.nunique()): # node_class.nunique() is number of class_labels
         p_i = node_class.value_counts().iloc[i] / len(node_class)
         info -= p_i * math.log(p_i, 2)
     
     return info
 
-count = 0
 def get_gain_ratio(node, feature):
     same_value_groups = node.groupby(feature)
     
@@ -57,7 +56,6 @@ def select_feature(node, features):
 
     # print('highest_gain_ratio : ' + str(highest_gain_ratio))
     # print('selected_feature : ' + str(selected_feature))
-
     return selected_feature    
 
 def make_tree(node, available_features):
@@ -85,10 +83,12 @@ predicted_class_label = []
 def predict_class_label(node, test_data_object, selected_feature):
     global predicted_class_label
 
+    # homogeneous class
     if(selected_feature == 'leaf' and node.data.iloc[:, -1].nunique() == 1):
         predicted_class_label.append(node.data.iloc[:, -1].iloc[0])
         return
     
+    # heterogeneous class
     if(selected_feature == 'leaf' and node.data.iloc[:, -1].nunique() != 1):    
         majority_count = 0
         majority_class_label = ''
