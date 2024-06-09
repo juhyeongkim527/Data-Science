@@ -5,9 +5,9 @@ import argparse
 # import tqdm
 from sklearn.metrics.pairwise import euclidean_distances
 
-def range_query(point, eps, distance_matrix):    # object_id를 저장하는 list를 return
+def range_query(point, eps, distance_matrix): # object_id를 저장하는 list를 return
     neighbors = set()
-    for i in range(len(distance_matrix[point])):    # 주석 친 아래 방법으로 하면 너무 느려서 미리 main() 함수에서 distance_matrix를 계산해서 argument로 넘김
+    for i in range(len(distance_matrix[point])): # 주석 친 아래 방법으로 하면 너무 느려서 미리 main() 함수에서 distance_matrix를 계산해서 argument로 넘김
         if(distance_matrix[point][i] <= eps):
             neighbors.add(i)
     return neighbors
@@ -75,7 +75,8 @@ def main(input_file_path, n, eps, minPts):
     # for cluster in clusters:
     #     cluster[1].iloc[:, 0].to_csv(f'input{input_file_path[5]}_cluster_{cluster[0]}.txt',  sep = '\n', index = False, header = None)
     
-    sorted_label_by_sizes = clusters.size().sort_values(ascending = False)
+    # cluster의 사이즈가 큰 순서대로 n개만 출력하기 위해
+    sorted_label_by_sizes = clusters.size().sort_values(ascending = False) 
     
     for i in range(n):
         for cluster in clusters:
